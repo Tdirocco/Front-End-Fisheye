@@ -1,10 +1,12 @@
+
+
 #contact_modal {
-    display: none;
+    display: none;  
 }
 
 .photograph-header {
     background-color: #FAFAFA;
-    height: 300px;
+    height: 313px;
     margin: 0 100px;
 }
 
@@ -21,6 +23,12 @@
     cursor: pointer;
 }
 
+.contact_button:hover {
+    background-color: #D3573C;
+    color: black;
+    transition: 0.3s;
+}
+
 .modal {
     border-radius: 5px;
     background-color: #DB8876;
@@ -34,18 +42,39 @@
 }
 
 .modal header {
-    justify-content: space-between;
+    display: flex;
+    align-items: start;
     width: 100%;
+    height: auto;
+    margin: 0;
+}
+
+#contact{
+    display: flex;
+    flex-direction: column;
+    justify-items: start;
+}
+
+#photographerName{
+    text-align:start;
 }
 
 .modal header img {
+    opacity: .5;
     cursor: pointer;
+    margin-top: 20px;
+}
+
+.modal header img:hover {
+    opacity: 1;
+    transition: 0.3s;
 }
 
 .modal header h2 {
     font-size: 64px;
     font-weight: normal;
-    text-align: center;
+    text-align: start;
+    margin: 0px;
 }
 
 form {
@@ -73,4 +102,69 @@ form input {
     height: 68px;
     border: none;
     border-radius: 5px;
+    box-sizing: border-box;
+    font-family: "DM Sans", sans-serif;
+    font-size: 30px;
 }
+
+textarea{
+    font-family: "DM Sans", sans-serif;
+    font-size: 30px;
+    border: none;
+    width: 100%;
+    height: 170px;
+    border-radius: 5px;
+}
+
+.photograph-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+article {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+article h1{
+    color: #D3573C;
+    font-size: 64px;
+    font-weight: 400;
+    margin: 0;
+}
+
+article h2{
+    color: #D3573C;
+    font-size: 64px;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+article h3 {
+    color: #901C1C;
+    margin: 0;
+    margin-bottom: 20px;
+    font-weight: 400;
+    font-size: 24px;
+}
+
+article h4 {
+    margin: 0;
+    
+    font-size: 18px;
+    font-weight: 400;
+}
+
+
+.photograph-header img {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+    clip-path: circle(100px at center);
+}
+
