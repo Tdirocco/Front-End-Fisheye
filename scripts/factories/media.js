@@ -1,14 +1,12 @@
 function mediaFactory(data) {
-    const { title, image, likes, photographerId } = data;
+    const { title, image, likes, date} = data;
 
-//recupérer le nom du photographe à partir de son id
-
-    const picture = `Media/${photographer}/${image}`;
+    const picture = `assets/Media/${selectedPhotographerInfo.name}/${image}`;
 
     function getMediaCardDOM() {
         const article = document.createElement( 'article' );
         const img = document.createElement( 'img' );
-        img.setAttribute("src", image)
+        img.setAttribute("src", picture)
         const h2 = document.createElement( 'h2' );
         h2.textContent = title;
         const link = document.createElement('a');
