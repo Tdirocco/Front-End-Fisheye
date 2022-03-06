@@ -1,4 +1,5 @@
 @import url("photographer.css");
+@import url("lightbox.css");
 
 body {
     font-family: "DM Sans", sans-serif;
@@ -12,30 +13,12 @@ header {
     justify-content: space-between;
     align-items: center;
     height: 90px;
-    margin-top: 30px;
-    margin-bottom: 30px;
 }
 
-.photographer_section a {
+a {
     text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
 }
 
-.photographer_section section {
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-
-a:hover {
-    cursor: pointer;
-}
 
 h1 {
     color: #901C1C;
@@ -48,10 +31,10 @@ h1 {
 }
 
 .photographer_section {
-    padding-top: 50px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 70px;
+    margin-top: 100px;
 }
 
 .photographer_section article {
@@ -62,47 +45,90 @@ h1 {
     flex-direction: column;
 }
 
-.photographer_section article h2 {
+.photographer_section h2 {
     color: #D3573C;
+    font-weight: 400;
     font-size: 36px;
-    margin-bottom: 5px;
+    margin: 20px 0 5px 0;
 }
 
-.photographer_section article img {
+.photographer_section h3 {
+    color: #901C1C;
+    font-size: 13px;
+    font-weight: 400;
+    margin: 0 0 5px 0;
+}
+
+.photographer_section h4 {
+    font-size: 10px;
+    font-weight: 400;
+    margin: 0 0 5px 0;
+}
+
+.photographer_section p {
+    color: #757575;
+    font-size: 9px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.photographer_section img {
+    top:0;
+    left:0;
     height: 200px;
     width: 200px;
     object-fit: cover;
-    clip-path: circle(100px at center);
+}
+
+.photographer_section a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.photographer_section a:hover h2{
+    color: #901C1C;
     
 }
 
-.photographer_section article section h3 {
-    color: #901C1C;
-    margin: 0;
-    margin-bottom: 5px;
-    font-weight: 400;
-    font-size: 13px;
+.photographer_section a:hover .fond {
+    filter: drop-shadow(0 0 0.6rem #757575)
+
 }
 
-.photographer_section article section h4 {
-    margin: 0;
-    margin-bottom: 5px;
-    font-size: 10px;
+.photo {
+    position: relative;
+    display: flex;
 }
 
-.photographer_section article section p {
-    color: #757575;
-    font-size: 9px;
-    margin: 0;
+.fond {
+    position: relative;
+    filter: opacity(40%) blur(1px);
+    border-radius: 50%;
+
 }
 
-.media_section {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 70px;
-    margin-top: 100px;
+.top {
+    position: absolute;
+    clip-path: circle(49%);
+    z-index: 1;
+    left: 0;
 }
 
 
+/*
+.name-hover {
+    text-shadow: 5px 5px 0.6rem #757575;
+}
 
-
+.img-hover {
+    filter: drop-shadow(0 0 0.75rem #757575);
+}
+*/

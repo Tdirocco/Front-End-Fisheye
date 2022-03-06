@@ -1,21 +1,17 @@
-function fetchData(){
-    return fetch("./data/photographers.json")
+function fetchData() {
+    return fetch('./data/photographers.json')
         .then(response => response.json())
         .then((allData) => {return allData});
 }
-   
-   
+
+
 async function getPhotographers() {
-    // Penser à remplacer par les données récupérées dans le json
-
+    // récupérer dans le json
     const allData = await fetchData();
-
-    const photographers = allData.photographers;
-            
-    // et bien retourner le tableau photographers seulement une fois
+    const photographers = allData.photographers
+    
     return ({
-        photographers: [...photographers]
-    })
+        photographers: [...photographers]})
 }
 
 async function displayData(photographers) {
@@ -33,6 +29,5 @@ async function init() {
     const { photographers } = await getPhotographers();
     displayData(photographers);
 };
-    
+
 init();
-    

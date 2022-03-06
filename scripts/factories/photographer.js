@@ -1,36 +1,48 @@
 function photographerFactory(data) {
     const { name, portrait, id, city, country, tagline, price } = data;
 
-    const picture = `assets/photographers/${portrait}`;
+    const picture = `assets/Media/photographers_ID_Photos/${portrait}`;
 
     function getUserCardDOM() {
         const article = document.createElement( 'article' );
-        const img = document.createElement( 'img' );
-        img.setAttribute("src", picture)
-        const h2 = document.createElement( 'h2' );
-        h2.textContent = name;
         const link = document.createElement('a');
-        link.setAttribute("href", `/photographer.html?id=${id}`);
-
+        link.setAttribute('href', `/photographer.html?id=${id}`);
+        const photo = document.createElement('div');
+        photo.setAttribute('class', 'photo')
+        const img1 = document.createElement( 'img' );
+        img1.setAttribute("src", picture)
+        img1.classList.add('fond');
+        const img2 = document.createElement('img');
+        img2.setAttribute("src", picture);
+        img2.classList.add('top');
         const info = document.createElement('section');
-        const origin = document.createElement('h3');
+        info.setAttribute('class', 'info');
+        const photographName = document.createElement( 'h2' );
+        photographName.textContent = name;
+        const photographOrigin = document.createElement('h3');
         const originText = `${city}, ${country}`;
-        origin.textContent = originText;
-        const tag = document.createElement('h4');
-        tag.textContent = tagline;
-        const tarif = document.createElement('p');
+        photographOrigin.textContent = originText;
+        const photographTag = document.createElement('h4');
+        photographTag.textContent = tagline;
+        photographPrice = document.createElement('p');
         const priceText = `${price}€/jour`;
-        tarif.textContent = priceText;
+        photographPrice.textContent = priceText;
         
-        article.append(link, info);
-        link.append(img, h2);
-    
-        info.append(origin);
-        info.append(tag);
-        info.append(tarif);        
+        
 
-       
+        article.append(link, info);
+
+        photo.append(img1, img2);
+        
+        link.append(photo, photographName);
+
+        info.append(photographOrigin, photographTag, photographPrice);
+        
+
         return (article);
     }
     return { name, picture, getUserCardDOM }
 }
+
+
+

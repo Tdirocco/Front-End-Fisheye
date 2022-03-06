@@ -15,7 +15,16 @@
       <div class="photograph-header">
         <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
       </div>
+      <nav class="filter-container">
+        <label for="filter">Trier par </label>
+        <select>
+          <option value="0">Popularité</option>
+          <option value="1">Date</option>
+          <option value="2">Titre</option>
+        </select>
+      </nav>
       <div class="media_section"></div>
+      <div class="info-likesandprice"></div>
     </main>
     <div id="contact_modal">
 			<div class="modal">
@@ -64,5 +73,6 @@
 		</div>
     <script src="/scripts/utils/contactForm.js"></script>
     <script src="/scripts/pages/photographer.js"></script>
+    <script src="/scripts/factories/lightbox.js"></script>
   </body>
 </html>
