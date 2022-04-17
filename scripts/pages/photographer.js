@@ -70,6 +70,7 @@ async function displayPhotographHeader() {
         pictFond.classList.add('pict-fond');
         const pictTop = document.createElement('img');
         pictTop.setAttribute("src", picture);
+        pictTop.setAttribute('alt',photograph.name);
         pictTop.classList.add('pict-top');
 
         pictId.append(pictFond, pictTop);
@@ -98,18 +99,29 @@ function filterFactory() {
         const selectedItem = document.createElement('input');
         selectedItem.setAttribute('class', 'selected-item');
         selectedItem.setAttribute('name', 'selected-item');
-        selectedItem.setAttribute('type', 'text');
+        selectedItem.setAttribute('role', 'button');
+        selectedItem.setAttribute('aria-haspopup', 'listbox');
+        selectedItem.setAttribute('aria-expanded', 'false');
+        selectedItem.setAttribute('type', 'button');
         selectedItem.setAttribute('value', selElmnt.options[selElmnt.selectedIndex].innerHTML);
         selectedItem.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
         customFilter[i].appendChild(selectedItem);
 
-        /* pour chaque element creation d'une div contenant l'option-list */
+        /* creation d'une div contenant l'option-list */
         const optionList = document.createElement('div');
         optionList.setAttribute('class', 'option-list option-hide');
-
+        optionList.setAttribute('role', 'listbox');
+        optionList.setAttribute('aria-haspopup', 'listbox2');
+        optionList.setAttribute('aria-expanded', 'true');
+        optionList.setAttribute('tabindex', '0');
+        
         /* pour chaque option du select creation d'une div option-item */
         for (j=0; j<selElmntLength; j++) {
             const optionItem = document.createElement('div');
+            optionItem.setAttribute('href', '#');
+            optionItem.setAttribute('role', 'listbox2');
+            optionItem.setAttribute('tabindex', '0');
+            optionItem.setAttribute('aria-labelledby', selElmnt.options[j].innerHTML)
             optionItem.innerHTML = selElmnt.options[j].innerHTML;
             optionItem.addEventListener('click', function(e) {
                 
@@ -126,8 +138,10 @@ function filterFactory() {
                         const selectedOptionLength = selectedOption.length;
                         for (k=0; k<selectedOptionLength; k++) {
                             selectedOption[k].removeAttribute('class');
+                            
                         }
                         this.setAttribute('class', 'same-as-selected');
+                        
                         let filterChoice = selectedItem.value;
                         sortMedia(filterChoice);
                         break;
@@ -184,11 +198,11 @@ async function displayPhotographGalerie(data) {
     if (data == undefined){
         data = photographMedia;
     }
-    
-    console.log(data);
 
     const mediaSection = document.querySelector('.media_section');
-
+    
+    mediaSection.innerHTML = '';
+    displayTotalLikes(photographMedia, photograph);
     data.forEach((media)=>{
         const mediaModel = mediaFactory(media);
         const mediaCardDOM = mediaModel.getMediaCardDOM();
@@ -221,21 +235,36 @@ async function displayPhotographGalerie(data) {
             const nbreLikes = document.createElement('div');
             nbreLikes.setAttribute("class","likes");
             nbreLikes.textContent = likes;
-            const heartIcons = document.createElement('div');
+            const heartIcons = document.createElement('a');
             heartIcons.setAttribute('class', 'heart__icons');
+            heartIcons.setAttribute('href', '#');
             const heartPict = document.createElement('img');
             heartPict.setAttribute("src", heart);
+            heartPict.setAttribute('alt', 'likes');
             heartPict.classList.add('heart');
             const heartPictSelect = document.createElement('img');
+            heartPictSelect.setAttribute('alt','likes');
             heartPictSelect.setAttribute("src", heartSelect);
             heartPictSelect.classList.add('heart__selected');
             heartIcons.append(heartPict, heartPictSelect);
             
-            //heartIcons.addEventListener('click', addLike);
+            heartIcons.addEventListener('click', addLike);
             
-            /* function addLike() {
-                
-            } */
+            
+
+            function addLike (e) {
+                e.preventDefault();
+                const totalLikes = document.querySelector('#totalLikes');
+                heartPictSelect.classList.toggle('visible');
+                if (heartPictSelect.classList.contains('visible')){
+                    nbreLikes.textContent = likes+1;
+                    totalLikes.textContent = parseInt(totalLikes.textContent)+1;
+                } else {
+                    nbreLikes.textContent = likes;
+                    totalLikes.textContent = parseInt(totalLikes.textContent)-1;
+                }
+            }
+            
 
 
 
@@ -243,7 +272,8 @@ async function displayPhotographGalerie(data) {
                 lien.setAttribute("href", picture);
                 const img = document.createElement('img');
                 img.setAttribute("src", picture);
-                lien.appendChild(img);
+                img.setAttribute('alt',title);
+                lien.append(img);
             } else {
                 lien.setAttribute("href", movies);
                 const film = document.createElement('video');
@@ -270,20 +300,22 @@ async function displayPhotographGalerie(data) {
     
     return {title, picture, getMediaCardDOM }
     }
+
+    lightbox.init()
+
 }
 
 /* Mise en place info total likes & tarif */
-async function displayTotalLikes() {
-    const selectedPhotographInfo = await getPhotographerInfo();
+function displayTotalLikes(photographMedia, photograph) {
+   /* const selectedPhotographInfo = await getPhotographerInfo();
     const photograph = selectedPhotographInfo.photograph;
-    const photographMedia = selectedPhotographInfo.photographMedia;
+    const photographMedia = selectedPhotographInfo.photographMedia;*/
     
-    function addTarif() {
-        const price = document.createElement('div');
-        price.setAttribute('class', 'tarif');
-        price.textContent = `${photograph.price}€/jour`;
 
-        return (price)
+
+    function addTarif() {
+        const price = document.querySelector('.tarif');
+        price.textContent = `${photograph.price}€/jour`;
     }
    
     function addTotalLikes(){
@@ -297,23 +329,13 @@ async function displayTotalLikes() {
             (prevValue, curValue) => prevValue + curValue, 0
         );
         
-        const totalLikes = document.createElement('div');
-        totalLikes.setAttribute('class', 'likes');
-        const heart = document.createElement('img');
-        heart.setAttribute('src', 'assets/icons/heartBlck.svg');
-        totalLikes.textContent = sumLikes;
-        totalLikes.appendChild(heart);
-            
-        return (totalLikes)
+
+        const sumLike = document.querySelector('#totalLikes');
+        sumLike.textContent = sumLikes;
     }
 
-    
-    
-    const info = document.querySelector('.info-likesandprice');
-    const tarif = addTarif();
-    const likes = addTotalLikes();
-    info.append(likes, tarif);
-    
+    addTarif();
+    addTotalLikes();    
     
 }
 
@@ -371,7 +393,6 @@ function displayData() {
     displayPhotographHeader();
     filterFactory();
     displayPhotographGalerie();
-    displayTotalLikes();
 }
 
 

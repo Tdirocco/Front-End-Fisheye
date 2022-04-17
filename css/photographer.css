@@ -24,6 +24,11 @@
     align-self: center;
 }
 
+.contact_button:hover {
+    background-color: #DB8876;
+    color:#000000;
+}
+
 .photograph-header article {
     display: flex;
     flex-direction: column;
@@ -96,9 +101,16 @@
 
 .info-likesandprice .likes, .info-likesandprice .tarif {
     justify-self: center;
+    align-self: center;
     font-size: 24px;
     font-weight: 500;
 }
+
+.info-likesandprice .likes {
+    display: flex;
+    align-items: center;
+}
+
 
 .info-likesandprice img{
     margin-left: 7px;
@@ -131,6 +143,7 @@
     height: 69px;
     padding: 23px 20px;
     cursor: pointer;
+    text-align: left;
 }
 
 .filter-container::after {
@@ -263,6 +276,7 @@
 }
 
 .media_section .heart__icons {
+    width: 26px;
     position: relative;
     display: flex;
 }
@@ -273,6 +287,10 @@
 
 
 .heart__icons:hover .heart__selected {
+    display: block;
+}
+
+.heart__icons .visible {
     display: block;
 }
 
@@ -287,33 +305,52 @@
 /* Modal */
 #contact_modal {
     display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background-color: rgba(255, 255, 255, 0.7); 
 }
 
 .modal {
+    width: 669px;
+    height: 900px;
+    position: relative;
     border-radius: 5px;
     background-color: #DB8876;
+    fill: solid;
     width: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     padding: 35px;
-    margin: auto;
+    margin: 2% auto;
+    box-sizing: border-box;
+    box-shadow: -5px 15px 30px rgba(0, 0, 0, 0.4);
 }
 
 .modal header {
-    justify-content: space-between;
+    display: flex;
+    align-items: start;
     width: 100%;
+    height: auto;
+    margin: 0;
 }
 
 .modal header img {
     cursor: pointer;
+    margin-top: 20px;
 }
 
 .modal header h2 {
     font-size: 64px;
-    font-weight: normal;
-    text-align: center;
+    font-weight: 400;
+    text-align: start;
+    margin: 0px;
 }
 
 form {
@@ -326,6 +363,28 @@ form {
 form label {
     color: #312E2E;
     font-size: 36px;
+    font-weight: 400;
+}
+
+form input {
+    width: 100%;
+    height: 68px;
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: "DM Sans", sans-serif;
+    font-size: 30px;
+}
+
+form textarea{
+    font-family: "DM Sans", sans-serif;
+    font-size: 30px;
+    border: none;
+    box-sizing: border-box;
+    width: 100%;
+    height: 170px;
+    border-radius: 5px;
+    margin-bottom: 20px;
 }
 
 form div {
@@ -336,13 +395,11 @@ form div {
     margin-bottom: 26px;
 }
 
-form input {
-    width: 100%;
-    height: 68px;
-    border: none;
-    border-radius: 5px;
+form .contact_button {
+    align-self: flex-start;
+    font-size: 18px;
+    font-weight: 700;
 }
-
 
 
 

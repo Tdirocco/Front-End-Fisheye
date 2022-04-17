@@ -1,18 +1,17 @@
-
-
-
-
-
 class lightbox {
     static async init () {
-    const selectedPhotographInfo = await getPhotographerInfo();
-    const links = Array.from(document.querySelectorAll('a[href$=".jpg"], a[href$=".mp4"]'));
-    const gallery = links.map(link => link.getAttribute('href'));
-    links.forEach(link => link.addEventListener('click', e =>
-        {
-            e.preventDefault();
-            new lightbox(e.currentTarget.getAttribute('href'), gallery);
-        }))
+        const selectedPhotographInfo = await getPhotographerInfo();
+        const photographMedia = selectedPhotographInfo.photographMedia;
+        const links = Array.from(document.querySelectorAll('a[href$=".jpg"], a[href$=".mp4"]'));
+        const gallery = links.map(link => link.getAttribute('href'));
+        links.forEach(link => link.addEventListener('click', e =>
+            {
+                e.preventDefault();
+                const parent = e.target.parentElement.parentElement;
+                const titre = parent.children[1].children[0].innerText;
+
+                new lightbox(e.currentTarget.getAttribute('href'), titre, gallery);
+            }))
     }
 
 
@@ -20,47 +19,66 @@ class lightbox {
         @param {string} url = URL du media
         @param {string[]} media => chemins des media de la lightbox 
     */
-    constructor (url, media){
+    constructor (url, titre, media){
         this.element = this.buildDom(url);
+        this.titre = titre;
         this.media = media;
-        console.log(media);
         this.mediaFactory(url);
         this.oneKeyUp = this.oneKeyUp.bind(this);
         document.body.appendChild(this.element);
         document.addEventListener('keyup', this.oneKeyUp.bind(this));
     }
   
-    mediaFactory(url){
+    async mediaFactory(url){
+        const selectedPhotographInfo = await getPhotographerInfo();
+        const photographMedia = selectedPhotographInfo.photographMedia;
+
+        const lien = url;
+        const objMedia = photographMedia.find(media => {
+            const adressLien = lien.split('/');
+            const l = adressLien[adressLien.length-1];
+            if (media.image){
+                return media.image == l
+            } else {
+                return media.video == l
+            }                
+        })
+
         if(url.endsWith('.jpg')){
-            this.loadImage(url)
+            this.loadImage(url, objMedia)
         } else if(url.endsWith('.mp4')){
-            this.loadPlayer(url)
+            this.loadPlayer(url, objMedia)
         }
     }
 
-    loadImage(url) {
+    loadImage(url, objMedia) {
+        
         this.url = null;
         const image = new Image();
         const container = this.element.querySelector('.lightbox__container');
         const loader = document.createElement('div');
+        const title = document.createElement('h2');
+        title.innerHTML = objMedia.title;
         loader.classList.add('lightbox__loader');
         container.innerHTML = '';
         container.appendChild(loader);
         image.onload = () => {
             container.removeChild(loader);
-            container.appendChild(image);
+            container.append(image, title);
             this.url = url;
         }
         image.src = url;
     }
 
-    loadPlayer(url) {
+    loadPlayer(url, objMedia) {
         this.url = null;
         const player = document.createElement('div');
         player.setAttribute('class', 'player');
         const video = document.createElement('video');
         video.setAttribute('type', 'video/mp4');
         video.addEventListener('ended', stopMedia);
+        const titre = document.createElement('h2');
+        titre.innerHTML = objMedia.title;
 
         const controls = document.createElement('div');
         controls.setAttribute('class', 'controls');
@@ -109,17 +127,29 @@ class lightbox {
         container.appendChild(loader);
         video.onloadstart = () => {
             container.removeChild(loader);
-            container.appendChild(player);
+            container.append(player, titre);
             this.url = url;
         }
         video.src = url;
 
 
+        window.addEventListener('keyup', playerRemote);
+
+        function playerRemote (e) {
+            if (e.keyCode === 32 || e.key === ' ') {
+                playPauseMedia();
+            } else if (e.key === 's') {
+                stopMedia();
+            }
+        }
+
         function playPauseMedia() {
             if(video.paused) {
+                playBtn.setAttribute('class', 'pause');
                 playBtn.setAttribute('data-icon', 'u');
                 video.play();
             } else {
+                playBtn.setAttribute('class', 'play');
                 playBtn.setAttribute('data-icon', 'P');
                 video.pause();
             }
@@ -225,10 +255,8 @@ class lightbox {
             this.close(e);
         } else if (e.key === 'ArrowLeft') {
             this.prev(e);
-        } else if (e.key == 'ArrowRight') {
+        } else if (e.key === 'ArrowRight') {
             this.next(e);
-        } else if (e.key == 'Space') {
-            this.playPauseMedia();
         }
     }
 
@@ -280,4 +308,15 @@ class lightbox {
 
 }
 
-lightbox.init()
+/*
+const lien = e.currentTarget.getAttribute('href');
+                const title = photographMedia.find(media => {
+                    const adressLien = lien.split('/');
+                    const l = adressLien[adressLien.length-1];
+                    if (media.image){
+                        return media.image == l
+                    } else {
+                        return media.video == l
+                    }                
+                })
+*/

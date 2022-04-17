@@ -1,5 +1,6 @@
 .lightbox{
     position: fixed;
+    padding-top: 20px;
     top: 0;
     left: 0;
     width: 100%;
@@ -39,7 +40,7 @@
     position: fixed;
     border: none;
     background: url(../assets/icons/lightbox_close.svg) center center / 100% 100%;
-    top: 77px;
+    top: 57px;
     right: 126px;
     height: 42px;
     width: 42px;
@@ -48,7 +49,7 @@
 
 .lightbox button{
     cursor: pointer;
-    text-indent: -3000px;
+    text-indent: 3000px;
     transition: 0.3s;
 }
 
@@ -56,20 +57,31 @@
     fill: #D3573C;
 }
 
-.lightbox__container img, .lightbox__container player{
+.lightbox__container img, .lightbox__container .player{
     width: 1050px;
-    height: 900px;
+    height: 850px;
     object-fit: cover;
     animation: lightboxIn .5s;
 }
 
 .lightbox__container{
+
+    height: 100vh;
+    
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-left: 195px;
     margin-right: 195px;
-    min-height: 100vh;
+}
+
+.lightbox__container h2 {
+    margin-top: 12px;
+    align-self: flex-start;
+    font-size: 24px;
+    font-weight: 400;
+    color: #901C1C;
 }
 
 .lightbox__loader{
@@ -77,6 +89,7 @@
     height: 76px;
     opacity: .5;
     background: url(../assets/icons/loader.svg) center center / 100% 100%;
+    margin: auto;
 }
 
 @keyframes lightboxIn {

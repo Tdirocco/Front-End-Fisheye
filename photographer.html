@@ -8,10 +8,10 @@
     <title>Fisheye - photographe </title>
   </head>
   <body>
-    <header>
-      <a href="index.html"><img src="assets/images/logo.png" class="logo" /></a>  
+    <header role="banner">
+      <a href="index.html"><img src="assets/images/logo.png" class="logo" alt="Fisheye Home page" /></a>  
     </header>
-    <main id="main">
+    <main id="main" aria-hidden="false">
       <div class="photograph-header">
         <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
       </div>
@@ -24,9 +24,15 @@
         </select>
       </nav>
       <div class="media_section"></div>
-      <div class="info-likesandprice"></div>
+      <div class="info-likesandprice">
+        <div class="likes">
+          <span id="totalLikes"></span>
+          <img src="assets/icons/heartBlck.svg">
+        </div>
+        <div class="tarif"></div>
+      </div>
     </main>
-    <div id="contact_modal">
+    <div id="contact_modal" aria-hidden="true" role="dialog" aria-describedby="contactForm">
 			<div class="modal">
 				<header>
           <div id='contact'>
@@ -34,10 +40,11 @@
             <h2 id="photographerName"></h2>
           </div>
           <img src="assets/icons/close.svg" onclick="closeModal()" />
-          
         </header>
-				<form>
-					<div>
+				<form id="contactForm"
+              name = 'contact'
+            >
+					
 						<label for ="firstName">Prénom</label>
 						<input 
               class="text-control"
@@ -55,7 +62,7 @@
             <label for = "mail">Email</label>
             <input 
               class="text-control"
-              type="text"
+              type="email"
               id="mail"
               name="mail"
               minlength="2"/>
@@ -66,13 +73,14 @@
               id="message"
               name="message"
               row="3" ></textarea>
-					</div>
-          <button class="contact_button">Envoyer</button>
+			
+          <button class="contact_button" id="btnSubmit" type='submit'>Envoyer</button>
 				</form>
 			</div>
 		</div>
-    <script src="/scripts/utils/contactForm.js"></script>
-    <script src="/scripts/pages/photographer.js"></script>
+    
     <script src="/scripts/factories/lightbox.js"></script>
+    <script src="/scripts/pages/photographer.js"></script>
+    <script src="/scripts/utils/contactForm.js"></script>
   </body>
 </html>
