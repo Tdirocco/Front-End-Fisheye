@@ -87,107 +87,111 @@ async function displayPhotographHeader() {
 }
 
 /* Mise en place du filter */
-function filterFactory() {
-    const customFilter = document.getElementsByClassName('filter-container');
-    const customFilterLength = customFilter.length;
 
-    for (i=0; i<customFilterLength; i++) {
-        const selElmnt = customFilter[i].getElementsByTagName('select')[0];
-        const selElmntLength = selElmnt.length;
+    const enterKey = 13;
+    const rightArr = 39;
+    const downArr = 40;
+    const upArr = 38;
+    const escKey = 27;
 
-        /* creation de l'input pour selected item */
-        const selectedItem = document.createElement('input');
-        selectedItem.setAttribute('class', 'selected-item');
-        selectedItem.setAttribute('name', 'selected-item');
-        selectedItem.setAttribute('role', 'button');
-        selectedItem.setAttribute('aria-haspopup', 'listbox');
-        selectedItem.setAttribute('aria-expanded', 'false');
-        selectedItem.setAttribute('type', 'button');
-        selectedItem.setAttribute('value', selElmnt.options[selElmnt.selectedIndex].innerHTML);
-        selectedItem.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-        customFilter[i].appendChild(selectedItem);
+    const list = document.querySelector('.dropdown__list');
+    const listContainer = document.querySelector('.dropdown__list-container');
+    const listItems = document.querySelectorAll('.dropdown__list-item');
+    const dropdownSelectedNode = document.querySelector('#dropdown__selected');
+    const listItemIds = [];
 
-        /* creation d'une div contenant l'option-list */
-        const optionList = document.createElement('div');
-        optionList.setAttribute('class', 'option-list option-hide');
-        optionList.setAttribute('role', 'listbox');
-        optionList.setAttribute('aria-haspopup', 'listbox2');
-        optionList.setAttribute('aria-expanded', 'true');
-        optionList.setAttribute('tabindex', '0');
-        
-        /* pour chaque option du select creation d'une div option-item */
-        for (j=0; j<selElmntLength; j++) {
-            const optionItem = document.createElement('div');
-            optionItem.setAttribute('href', '#');
-            optionItem.setAttribute('role', 'listbox2');
-            optionItem.setAttribute('tabindex', '0');
-            optionItem.setAttribute('aria-labelledby', selElmnt.options[j].innerHTML)
-            optionItem.innerHTML = selElmnt.options[j].innerHTML;
-            optionItem.addEventListener('click', function(e) {
-                
-                /* qd item clické => update original select box et selected item */
-                const sel = this.parentNode.parentNode.getElementsByTagName('select')[0];
-                const selLength = sel.length;
-                const prevNode = this.parentNode.previousSibling;
-                for (i=0; i<selLength; i++) {
-                    if (sel.options[i].innerHTML == this.innerHTML) {
-                        sel.selectedIndex = i;
-                        selectedItem.innerHTML = this.innerHTML;
-                        selectedItem.setAttribute('value', this.innerHTML);
-                        const selectedOption = this.parentNode.getElementsByClassName('same-as-selected');
-                        const selectedOptionLength = selectedOption.length;
-                        for (k=0; k<selectedOptionLength; k++) {
-                            selectedOption[k].removeAttribute('class');
-                            
-                        }
-                        this.setAttribute('class', 'same-as-selected');
-                        
-                        let filterChoice = selectedItem.value;
-                        sortMedia(filterChoice);
-                        break;
-                    }
-                    
-                }
-                prevNode.click();
-            });
-            optionList.appendChild(optionItem);
-        }
-        customFilter[i].appendChild(optionList);
-        selectedItem.addEventListener('click', function(e) {
-            /* qd input selectionné open/close option item */
-            e.stopPropagation();
-            closeAllSelect(this);
-            this.nextSibling.classList.toggle('option-hide');
-            this.classList.toggle('select-arrow-active');
+    dropdownSelectedNode.addEventListener('click', e => toggleListVisibility(e));
+    dropdownSelectedNode.addEventListener('keydown', e => toggleListVisibility(e));
+
+    listItems.forEach(item => listItemIds.push(item.id));
+    listItems.forEach(item => {
+        item.addEventListener('click', e => {
+            setSelectedListItem(e);
+            closeList();
         });
+
+        item.addEventListener('keydown', e => {
+            switch (e.keyCode) {
+                case enterKey:
+                    setSelectedListItem(e);
+                    closeList();
+                    return;
+                    
+                case downArr:
+                    focusNextItem(downArr);
+                    return;
+                
+                case upArr:
+                    focusNextItem(upArr);
+                    return;
+
+                case escKey:
+                    closeList();
+                    return;
+
+                default:
+                    return;
+            }
+        });
+    });
+
+    function setSelectedListItem(e) {
+        let selectedTextToAppend = document.createTextNode(e.target.innerText);
+        dropdownSelectedNode.innerHTML = null;
+        dropdownSelectedNode.appendChild(selectedTextToAppend);
+        sortMedia(e.target.innerText);
     }
-    
-    function closeAllSelect(elmnt) {
-        /* ferme ttes les box sauf celle utilisée */
-        const arrNo = [];
-        const itemsList = document.getElementsByClassName('option-list');
-        const selected = document.getElementsByClassName('selected-item');
-        const itemsListLength = itemsList.length;
-        const selectedLength = selected.length;
-        for (i=0; i<selectedLength; i++) {
-            if (elmnt == selected[i]) {
-                arrNo.push(i);
-            } else {
-                selected[i].classList.remove('select-arrow-active');
+
+    function closeList() {
+        list.classList.remove('open');
+        //list.classList.add('expanded', 'false');
+        listContainer.setAttribute('aria-expanded', false);
+    }
+
+    function toggleListVisibility(e) {
+        let openDropDown = e.keyCode === rightArr || e.keyCode === enterKey;
+        if (e.keyCode === escKey) {
+            closeList();
+        }
+
+        if (e.type === 'click' || openDropDown) {
+            list.classList.toggle('open');
+            //dropdownArrow.classList.toggle('expanded');
+            listContainer.setAttribute('aria-expanded', list.classList.contains('open'));
+        }
+
+        if (e.keyCode === downArr) {
+            focusNextItem(downArr);
+        }
+        
+        if (e.keyCode === upArr) {
+            focusNextItem(upArr);
+        }
+    }
+
+    function focusNextItem(direction) {
+        const activeElementId = document.activeElement.id;
+        if (activeElementId === 'dropdown__selected') {
+            document.querySelector(`#${listItemIds[0]}`).focus();
+        } else {
+            const currentActiveElementIndex = listItemIds.indexOf(activeElementId);
+            if (direction === downArr) {
+                const currentActiveElementIsNotLastItem = currentActiveElementIndex < listItemIds.length -1;
+                if (currentActiveElementIsNotLastItem) {
+                    const nextListItemId = listItemIds[currentActiveElementIndex +1];
+                    document.querySelector(`#${nextListItemId}`).focus();
+                }
+            } else if (direction === upArr) {
+                const currentActiveElementIsNotFirstItem = currentActiveElementIndex > 0;
+                if (currentActiveElementIsNotFirstItem) {
+                    const nextListItemId = listItemIds[currentActiveElementIndex -1];
+                    document.querySelector(`#${nextListItemId}`).focus();
+                }
             }
         }
-        for (i=0; i<itemsListLength; i++) {
-            if (arrNo.indexOf(i)) {
-                itemsList[i].classList.add('option-hide')
-            }
-        }
     }
-    
-    /* si click en dehors de la box => close la box */
-    document.addEventListener('click', closeAllSelect); 
-    
-    
-}
+
+
 
 /* Mise en place de la Galerie */
 async function displayPhotographGalerie(data) {
@@ -344,13 +348,13 @@ async function sortMedia(e) {
     const selectedPhotographInfo = await getPhotographerInfo();
     const photographMedia = selectedPhotographInfo.photographMedia;
 
-    if (e === 'Popularité'){
+    if (e === 'Popularité') {
         const orderedMedia = photographMedia.sort(byLikes);
         displayPhotographGalerie(orderedMedia);
-    } else if (e ==='Date'){
+    } else if (e === 'Date') {
         const orderedMedia = photographMedia.sort(byDate);
         displayPhotographGalerie(orderedMedia);
-    } else if (e ==='Titre'){
+    } else if (e === 'Titre') {
         const orderedMedia = photographMedia.sort(byTitle);
         displayPhotographGalerie(orderedMedia);
     } else {
@@ -391,7 +395,6 @@ async function sortMedia(e) {
 /* Affichage des Data */
 function displayData() {
     displayPhotographHeader();
-    filterFactory();
     displayPhotographGalerie();
 }
 

@@ -1,5 +1,3 @@
-console.log('bonjour');
-
 const form = document.getElementById("contactForm");
 const btnSubmit=document.querySelector("#btnSubmit");
 
@@ -65,7 +63,5 @@ function sendModal(e) {
 function onKeyDown(e) {
     if (e.keyCode === 27 || e.key === 'Escape') {
         closeModal();
-    } else if (e.keyCode === 13 || e.key === 'Enter') {
-        sendModal();
-    }
+    } 
 }

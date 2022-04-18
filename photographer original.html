@@ -17,38 +17,11 @@
       </div>
       <nav class="filter-container">
         <label for="filter">Trier par </label>
-        <ul class="dropdown">
-    
-          <!-- The "select" drop down -->
-          <li role="button"
-            aria-labelledby="dropdown-label"
-            id="dropdown__selected" 
-            tabindex="0">
-            Popularité
-          </li>
-      
-          <li class="dropdown__list-container"
-            aria-expanded="false"
-            role="list">
-            <ul class="dropdown__list">
-              <li class="dropdown__list-item"
-                tabindex="0"
-                id="option-1">
-                Popularité
-              </li>
-              <li class="dropdown__list-item"
-                tabindex="0"
-                id="option-2">
-                Date
-              </li>
-              <li class="dropdown__list-item"
-                tabindex="0"
-                id="option-3">
-                Titre
-              </li>
-            </ul>
-          </li>
-        </ul>
+        <select>
+          <option value="0">Popularité</option>
+          <option value="1">Date</option>
+          <option value="2">Titre</option>
+        </select>
       </nav>
       <div class="media_section"></div>
       <div class="info-likesandprice">
