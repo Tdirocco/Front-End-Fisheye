@@ -6,11 +6,9 @@ const Nom = document.querySelector('#name');
 const email = document.querySelector('#mail');
 const message = document.querySelector('#message');
 
-btnSubmit.addEventListener('click',sendModal)
+btnSubmit.addEventListener('click',sendModal);
 
-form.addEventListener('input', function(e){
-    console.log(e.target.value);
-})
+
 
 function displayModal() {
 

@@ -55,6 +55,7 @@ class lightbox {
         
         this.url = null;
         const image = new Image();
+        image.alt = objMedia.title;
         const container = this.element.querySelector('.lightbox__container');
         const loader = document.createElement('div');
         const title = document.createElement('h2');
@@ -76,6 +77,7 @@ class lightbox {
         player.setAttribute('class', 'player');
         const video = document.createElement('video');
         video.setAttribute('type', 'video/mp4');
+        video.setAttribute ('alt',objMedia.title);
         video.addEventListener('ended', stopMedia);
         const titre = document.createElement('h2');
         titre.innerHTML = objMedia.title;
