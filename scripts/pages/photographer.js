@@ -50,10 +50,10 @@ async function displayPhotographHeader() {
         const article = document.createElement('article');
         const Nom = document.createElement('h1');
         Nom.textContent = photograph.name;
-        const origin = document.createElement('h3');
+        const origin = document.createElement('h2');
         const originText = `${photograph.city}, ${photograph.country}`;
         origin.textContent = originText;
-        const tagLine = document.createElement('h4');
+        const tagLine = document.createElement('h3');
         tagLine.textContent = photograph.tagline;
     
         article.append(Nom, origin, tagLine);
@@ -67,6 +67,7 @@ async function displayPhotographHeader() {
         pictId.setAttribute('class', 'pict-id');
         const pictFond = document.createElement('img');
         pictFond.setAttribute("src", picture);
+        pictFond.setAttribute('alt', photograph.name);
         pictFond.classList.add('pict-fond');
         const pictTop = document.createElement('img');
         pictTop.setAttribute("src", picture);
@@ -230,9 +231,10 @@ async function displayPhotographGalerie(data) {
 
             const lien = document.createElement('a');
             lien.setAttribute("class", "container");
+            lien.setAttribute('alt', title);
             const pictInfo = document.createElement('section');
             pictInfo.setAttribute("class","info");
-            const pictTitle = document.createElement('h2');
+            const pictTitle = document.createElement('h4');
             pictTitle.textContent = title;
             const rates = document.createElement('div');
             rates.setAttribute("class","rates");
@@ -282,7 +284,9 @@ async function displayPhotographGalerie(data) {
                 lien.setAttribute("href", movies);
                 const film = document.createElement('video');
                 film.setAttribute("src", movies);
+                film.setAttribute('alt',title);
                 film.setAttribute("id","video");
+                //lien.innerText = title;
                 lien.appendChild(film);
                 film.addEventListener('mouseover', function (){
                     this.play();

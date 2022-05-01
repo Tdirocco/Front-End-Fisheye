@@ -11,10 +11,12 @@ function photographerFactory(data) {
         const photo = document.createElement('div');
         photo.setAttribute('class', 'photo')
         const img1 = document.createElement( 'img' );
-        img1.setAttribute("src", picture)
+        img1.setAttribute("src", picture);
+        img1.setAttribute('alt', name);
         img1.classList.add('fond');
         const img2 = document.createElement('img');
         img2.setAttribute("src", picture);
+        img2.setAttribute('alt', name);
         img2.classList.add('top');
         const info = document.createElement('section');
         info.setAttribute('class', 'info');

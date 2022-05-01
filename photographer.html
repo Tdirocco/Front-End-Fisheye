@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
     <title>Fisheye - photographe </title>
@@ -17,10 +18,9 @@
       </div>
       <nav class="filter-container">
         <label for="filter">Trier par </label>
-        <ul class="dropdown">
+        <ul class="dropdown" role="list">
     
-          <!-- The "select" drop down -->
-          <li role="button"
+          <li role="listitem"
             aria-labelledby="dropdown-label"
             id="dropdown__selected" 
             tabindex="0">
@@ -29,7 +29,7 @@
       
           <li class="dropdown__list-container"
             aria-expanded="false"
-            role="list">
+            role="listitem">
             <ul class="dropdown__list">
               <li class="dropdown__list-item"
                 tabindex="0"
@@ -54,7 +54,7 @@
       <div class="info-likesandprice">
         <div class="likes">
           <span id="totalLikes"></span>
-          <img src="assets/icons/heartBlck.svg">
+          <img src="assets/icons/heartBlck.svg" alt='total likes'>
         </div>
         <div class="tarif"></div>
       </div>
